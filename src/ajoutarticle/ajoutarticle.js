@@ -1,7 +1,7 @@
 
 import './ajoutarticle.css'
 
-import Axios from 'axios';
+import Axios , { post } from 'axios';
 import {Link} from "react-router-dom";
 
 import React , { Component } from 'react';
@@ -17,14 +17,16 @@ class Ajoutarticle extends Component{
        titre:"",
        description:"",
        contenu:"",
-       image:"",
+       image: null,
        categorie_id:"",
        categories:[]
 
     }
+    
+
+   
 
 }
-
 
 
 
@@ -84,15 +86,17 @@ inputhandlercontenu  = (event) => {
 
 
 
-// inputhandlerimage  = (event) => {
+onChangeimage = event => {
+  this.setState({ image: event.target.files[0] })
+}
 
-//   this.setState({
 
-//       image: event.target.value
 
-//      });
-  
-// }
+
+
+
+
+
 
 
 
@@ -107,7 +111,12 @@ inputhandlercategorie_id  = (event) => {
   
 }
 
-
+// fileUpload(image){
+//   const url = 'http://localhost:8000/api/fileupload';
+//   const formData = {file: this.state.image}
+//   return  post(url, formData)
+//           .then(response => console.log(response))
+// }
 
 
 
@@ -120,15 +129,24 @@ const article  ={
   titre: this.state.titre,
   description: this.state.description,
   contenu: this.state.contenu,
-   image: "immmage",
+   image: this.state.image.name ,
   categorie_id: this.state.categorie_id
 };
 
 
+
+
+
+console.log(this.state.image);
+console.log(this.state.titre);
+console.log(this.state.description);
+console.log(this.state.contenu);
+console.log(this.state.categorie_id);
+
 Axios.post(url ,article)
 .then(response => {
    console.log(response);
-
+   console.log(response.data);
 
 })
 .catch(error=> {
@@ -154,7 +172,7 @@ console.log(error);
      <h4 className="classclass">Ajout d'un article</h4>
              <div   style={{border:" 1px solid #eee", boxShadow:"0 2px 3px #ccc" , padding:"15px"}} >
             
-           <form >
+           <form   >
      <label  >titre d'article :
      <input onChange={this.inputhandlertitre} style={{width:"80%"}}   type="text" name="titre" /> 
      </label>
@@ -168,7 +186,7 @@ console.log(error);
      </label>
 
      <label  >uploader une image :
-     <input  style={{width:"80%"}}   type="file" name="image" /> 
+     <input  style={{width:"80%"}}   type="file"  onChange={this.onChangeimage} name="image" /> 
      </label>
 
      <select onChange={this.inputhandlercategorie_id}  name="categorie_id">
