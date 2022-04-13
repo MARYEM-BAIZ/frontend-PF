@@ -86,15 +86,18 @@ inputhandlercontenu  = (event) => {
 
 
 
+// onChangeimage = event => {
+//   this.setState({ image: event.target.files[0] })
+// }
+
 onChangeimage = event => {
-  this.setState({ image: event.target.files[0] })
-}
-
-
-
-
-
-
+  if (event.target.files && event.target.files[0]) {
+    let img = event.target.files[0];
+    this.setState({
+      image: URL.createObjectURL(img)
+    });
+  }
+};
 
 
 
@@ -102,7 +105,7 @@ onChangeimage = event => {
 
 
 inputhandlercategorie_id  = (event) => {
- //console.log(event.target.options.selectedIndex);
+  console.log(event.target.options.selectedIndex);
    this.setState({
 
        categorie_id: event.target.options.selectedIndex
@@ -110,13 +113,6 @@ inputhandlercategorie_id  = (event) => {
       });
   
 }
-
-// fileUpload(image){
-//   const url = 'http://localhost:8000/api/fileupload';
-//   const formData = {file: this.state.image}
-//   return  post(url, formData)
-//           .then(response => console.log(response))
-// }
 
 
 
@@ -129,7 +125,7 @@ const article  ={
   titre: this.state.titre,
   description: this.state.description,
   contenu: this.state.contenu,
-   image: this.state.image.name ,
+   image: this.state.image,
   categorie_id: this.state.categorie_id
 };
 
